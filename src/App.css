@@ -1,0 +1,407 @@
+/* Estilos generales */
+body {
+  font-family: 'Courier New', monospace; /* Estilo retro */
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.pokedex {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.pokedex-header {
+  text-align: center;
+  background-color: #0400e4; /* Rojo Pokédex */
+  color: white;
+  padding: 20px;
+  border-radius: 10px 10px 0 0;
+  position: relative; /* Para posicionar el botón del carrito absolutamente */
+}
+
+.pokedex-header h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+/* Botón del icono de agenda en el header */
+.agenda-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-size: 2em;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.agenda-button:hover {
+  color: #ff6666;
+}
+
+/* Cuerpo */
+.pokedex-body {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Formulario */
+.pokemon-form {
+  background-color: #0075be; /* Azul Pokédex */
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.pokemon-form h2 {
+  margin-top: 0;
+}
+
+.pokemon-form input,
+.pokemon-form select {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.pokemon-form button {
+  background-color: #e4000f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-right: 10px;
+}
+
+.pokemon-form button:hover {
+  background-color: #c4000a;
+}
+
+/* Lista de Pokémon */
+.pokemon-list {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  overflow: hidden; /* Oculta el contenido que sale de la vista, asegurando que no salga del contenedor */
+  width: 100%;
+  /* Animación horizontal infinita para el contenedor entero */
+  animation: scrollInfinite 15s linear infinite; /* Duración ajustable */
+}
+
+.pokemon-card {
+  background-color: #f9f9f9;
+  border: 2px solid #0075be;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 0 0 250px; /* Ancho fijo para cada carta */
+  cursor: pointer; /* Indica que es clicable */
+  transition: transform 0.2s; /* Efecto hover suave */
+}
+
+.pokemon-card:hover {
+  transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+}
+
+.pokemon-card img {
+  max-width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.pokemon-card h3 {
+  margin: 10px 0;
+  color: #e4000f;
+}
+
+.pokemon-card p {
+  margin: 5px 0;
+}
+
+.pokemon-card button {
+  background-color: #0075be;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 0.9em;
+}
+
+.pokemon-card button:hover {
+  background-color: #005a8d;
+}
+
+/* Vista detallada de Nintendo DS */
+.ds-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: #ff0000; /* Removido para usar estilo inline dinámico */
+  border: 5px solid #000000; /* Borde negro para el marco */
+  border-radius: 15px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  position: relative; /* Para posicionar el botón del carrito absolutamente */
+}
+
+/* Botón del carrito de compras */
+.cart-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #e4000f; /* Rojo Pokédex */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s;
+}
+
+.cart-button:hover {
+  background-color: #c4000a;
+}
+
+.ds-screen-top {
+  background-color: #ffffff; /* Pantalla negra */
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ds-image {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 5px;
+}
+
+.ds-screen-bottom {
+  background-color: #f0f0f0; /* Pantalla inferior clara */
+  border: 2px solid #666;
+  border-radius: 10px;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.ds-screen-bottom h2 {
+  margin-top: 0;
+  color: #e4000f;
+}
+
+.ds-button {
+  background-color: #0075be;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 10px;
+}
+
+.ds-button:hover {
+  background-color: #005a8d;
+}
+
+/* Vista de la lista de compra (carrito) */
+.cart-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.cart-view h2 {
+  color: #e4000f;
+  margin-bottom: 20px;
+}
+
+.cart-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.cart-card {
+  background-color: #f9f9f9; /* Color base, pero se sobrescribe con inline style */
+  border: 2px solid #0075be;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  transition: transform 0.2s;
+}
+
+.cart-card:hover {
+  transform: scale(1.05);
+}
+
+.cart-card img {
+  max-width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.cart-card h3 {
+  margin: 10px 0;
+  color: #e4000f;
+}
+
+.cart-card p {
+  margin: 5px 0;
+}
+
+.cart-empty {
+  text-align: center;
+  color: #666;
+  font-size: 1.2em;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .pokedex-body {
+    padding: 10px;
+  }
+  .pokemon-form {
+    padding: 15px;
+  }
+  .pokemon-list {
+    flex-direction: row;
+  }
+  .pokedex-header h1 {
+    font-size: 2em;
+  }
+  .ds-view {
+    max-width: 90%;
+  }
+  .ds-screen-top {
+    height: 200px;
+  }
+  .cart-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2em;
+  }
+  .agenda-button {
+    font-size: 1.5em;
+  }
+  .cart-card {
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pokedex {
+    padding: 10px;
+  }
+  .pokemon-card {
+    padding: 10px;
+    flex: 0 0 200px; /* Reduce ancho en móviles */
+  }
+  .pokemon-card img {
+    height: 120px;
+  }
+  .ds-screen-top {
+    height: 150px;
+  }
+  .cart-button {
+    width: 35px;
+    height: 35px;
+    font-size: 1em;
+  }
+  .agenda-button {
+    font-size: 1.2em;
+  }
+  .cart-card {
+    width: 180px;
+  }
+  .cart-card img {
+    height: 120px;
+  }
+}
+
+/* Animación horizontal infinita: mueve el contenedor de izquierda a derecha, repitiendo al final sin recortar */
+@keyframes scrollInfinite {
+  0% {
+    transform: translateX(0); /* Empieza en la posición inicial */
+  }
+  100% {
+    transform: translateX(-50%); /* Mueve a la mitad, asumiendo contenido duplicado para loop seamless */
+  }
+}
+
+/* Estilos para el tema oscuro */
+.dark body {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark .pokedex {
+  background-color: #555;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.dark .pokedex-header {
+  background-color: #222;
+}
+
+.dark .pokemon-form {
+  background-color: #444;
+}
+
+.dark .ds-view {
+  /* background-color: #333; /* Removido para evitar conflicto con el estilo inline dinámico */
+  border-color: #666;
+}
+
+.dark .ds-screen-bottom {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark .ds-screen-bottom h2 {
+  color: #ff6666;
+}
+
+.dark .cart-card {
+  border-color: #666;
+}
