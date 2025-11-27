@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js'; // Importa el cliente de Supabase
 import './App.css';
+
+// Inicializa el cliente de Supabase con las variables de entorno
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL; // Asegúrate de que estas variables estén configuradas en Vercel
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
@@ -23,12 +29,11 @@ function App() {
 
   const tipos = ['Fuego', 'Agua', 'Planta', 'Eléctrico', 'Tierra', 'Roca', 'Hielo', 'Volador', 'Psíquico', 'Fantasma', 'Dragón', 'Siniestro', 'Acero', 'Hada'];
 
-  // Función para verificar conexión
+  // Función para verificar conexión (ahora verifica conexión a Supabase)
   const checkConnection = async () => {
     try {
-      const response = await fetch('http://localhost:3002/api/health');
-      const data = await response.json();
-      setIsConnected(data.status === 'success');
+      const { data, error } = await supabase.from('pokemons').select('id').limit(1);
+      setIsConnected(!error);
     } catch (error) {
       setIsConnected(false);
     }
@@ -50,8 +55,8 @@ function App() {
 
   const fetchPokemons = async () => {
     try {
-      const response = await fetch('http://localhost:3002/api/pokemons');
-      const data = await response.json();
+      const { data, error } = await supabase.from('pokemons').select('*');
+      if (error) throw error;
       console.log('Pokémon cargados:', data);  // Verifica los datos en consola
       data.forEach(pokemon => {
         console.log(`Imagen de ${pokemon.nombre}:`, pokemon.imagen ? pokemon.imagen.substring(0, 50) + '...' : 'No hay imagen');  // Muestra el inicio del base64
@@ -65,9 +70,27 @@ function App() {
   // Nueva función para cargar el carrito desde DB (con JOIN para datos completos)
   const fetchCart = async () => {
     try {
-      const response = await fetch('http://localhost:3002/api/cart');
-      const data = await response.json();
-      setCart(data);  // data incluye los datos del Pokémon gracias al JOIN
+      const { data, error } = await supabase
+        .from('cart_items')
+        .select(`
+          id,
+          color,
+          pokemons (
+            id,
+            nombre,
+            imagen,
+            tipo,
+            localizacion
+          )
+        `);
+      if (error) throw error;
+      // Transforma los datos para que coincidan con la estructura esperada
+      const transformedCart = data.map(item => ({
+        id: item.id,
+        color: item.color,
+        ...item.pokemons
+      }));
+      setCart(transformedCart);
     } catch (error) {
       console.error('Error al cargar carrito:', error);
     }
@@ -97,18 +120,17 @@ function App() {
     }
     try {
       if (editingId) {
-        await fetch(`http://localhost:3002/api/pokemons/${editingId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
+        const { error } = await supabase
+          .from('pokemons')
+          .update(formData)
+          .eq('id', editingId);
+        if (error) throw error;
         setEditingId(null);
       } else {
-        await fetch('http://localhost:3002/api/pokemons', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
+        const { error } = await supabase
+          .from('pokemons')
+          .insert([formData]);
+        if (error) throw error;
       }
       setFormData({ nombre: '', imagen: null, tipo: '', localizacion: '' });
       fetchPokemons();
@@ -124,9 +146,11 @@ function App() {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:3002/api/pokemons/${id}`, {
-        method: 'DELETE'
-      });
+      const { error } = await supabase
+        .from('pokemons')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
       fetchPokemons();
     } catch (error) {
       console.error('Error al eliminar Pokémon:', error);
@@ -155,11 +179,10 @@ function App() {
         color: consoleColor
       };
       try {
-        await fetch('http://localhost:3002/api/cart', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(cartData)
-        });
+        const { error } = await supabase
+          .from('cart_items')
+          .insert([cartData]);
+        if (error) throw error;
         alert(`${selectedPokemon.nombre} agregado al carrito con color ${consoleColor}!`);
         fetchCart();  // Recargar el carrito desde DB para reflejar cambios
       } catch (error) {
@@ -171,9 +194,11 @@ function App() {
   // Nueva función para eliminar un item del carrito
   const removeFromCart = async (cartId) => {
     try {
-      await fetch(`http://localhost:3002/api/cart/${cartId}`, {
-        method: 'DELETE'
-      });
+      const { error } = await supabase
+        .from('cart_items')
+        .delete()
+        .eq('id', cartId);
+      if (error) throw error;
       fetchCart();  // Recargar el carrito desde DB
     } catch (error) {
       console.error('Error al eliminar del carrito:', error);
